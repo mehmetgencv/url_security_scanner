@@ -122,11 +122,11 @@ Below are some screenshots of the application in action:
 
 **Dashboard View:**
 
-![Dashboard](static/dashboard.png)
+![Dashboard](static/dashboard_image.png)
 
 **Scan Report:**
 
-![Report](static/report.png)
+![Report](static/report_image.png)
 
 ### License
 
