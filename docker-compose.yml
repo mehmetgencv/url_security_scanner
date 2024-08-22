@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+      - SECRET_KEY=${SECRET_KEY}
+      - VIRUSTOTAL_BASE_URL=${VIRUSTOTAL_BASE_URL}
+    container_name: URLSecurityScanner
