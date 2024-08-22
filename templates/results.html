@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VirusTotal Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .url-section {
+            margin-bottom: 40px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .clean {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .unrated {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .malicious {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+<h1>VirusTotal Report</h1>
+
+<div id="report-container">
+    <!-- URL ve raporlar buraya eklenecek -->
+</div>
+
+<script>
+    const reportData = {{ report|tojson }};
+
+    const reportContainer = document.getElementById('report-container');
+
+    for (const [url, engineData] of Object.entries(reportData)) {
+        const urlSection = document.createElement('div');
+        urlSection.className = 'url-section';
+
+        const urlTitle = document.createElement('h2');
+        urlTitle.textContent = `URL: ${url}`;
+        urlSection.appendChild(urlTitle);
+
+        const table = document.createElement('table');
+        const thead = document.createElement('thead');
+        thead.innerHTML = `
+            <tr>
+                <th>Engine Name</th>
+                <th>Method</th>
+                <th>Category</th>
+                <th>Result</th>
+            </tr>
+        `;
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        for (const [engine, data] of Object.entries(engineData)) {
+            const row = document.createElement('tr');
+            const resultClass = data.result === 'clean' ? 'clean' : data.result === 'unrated' ? 'unrated' : 'malicious';
+
+            row.innerHTML = `
+                <td>${engine}</td>
+                <td>${data.method}</td>
+                <td>${data.category}</td>
+                <td class="${resultClass}">${data.result}</td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        table.appendChild(tbody);
+        urlSection.appendChild(table);
+        reportContainer.appendChild(urlSection);
+    }
+</script>
+</body>
+</html>
